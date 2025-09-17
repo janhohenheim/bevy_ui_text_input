@@ -1,13 +1,21 @@
 //! minimal text input example
 
-use bevy::{color::palettes::css::NAVY, prelude::*};
+use bevy::{
+    color::palettes::css::NAVY, feathers::FeathersPlugins, input_focus::InputDispatchPlugin,
+    prelude::*,
+};
 use bevy_ui_text_input::{
     SubmitText, TextInputMode, TextInputNode, TextInputPlugin, TextInputPrompt,
 };
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, TextInputPlugin))
+        .add_plugins((
+            DefaultPlugins,
+            // InputDispatchPlugin is also added by TextInputPlugin
+            FeathersPlugins.build().disable::<InputDispatchPlugin>(),
+            TextInputPlugin,
+        ))
         .add_systems(Startup, setup)
         .add_systems(Update, update)
         .run();
